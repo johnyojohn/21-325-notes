@@ -1,26 +1,34 @@
 #!/bin/bash
 
-     # Check if a date argument is provided
-     if [ $# -eq 0 ]; then
-         echo "Please provide a date in the format YYYY-MM-DD"
-         exit 1
-     fi
 
-     # Create directory with the given date
-     dir_name="$1 lecture notes"
-     mkdir "$dir_name"
+# Use current date if no argument is provided
+date=${1:-$(date +%Y-%m-%d)}
 
-     # Copy template to the new directory
-     cp template.tex "$dir_name/lecture.tex"
+# Create directory with the given date
+dir_name="$date lecture notes"
+mkdir "$dir_name"
 
-     # Create metadata file
-     echo "Initial upload: $(date)" > "$dir_name/metadata.txt"
-     echo "Uploaded by: $USER" >> "$dir_name/metadata.txt"
-     echo "Revision history:" >> "$dir_name/metadata.txt"
+# Copy template to the new directory
+cp template.tex "$dir_name/lecture.tex"
 
-     # Add and commit changes
-     git add "$dir_name"
-     git commit -m "Add lecture notes for $1"
-     git push origin main
+# Get the Git user name
+git_user=$(git config user.name)
 
-     echo "Lecture notes created and pushed to repository"
+# If git user name is not set, use a default value
+if [ -z "$git_user" ]; then
+    git_user="Unknown User"
+fi
+
+# Create metadata file
+echo "Initial upload: $(date)" > "$dir_name/metadata.txt"
+echo "Uploaded by: $git_user" >> "$dir_name/metadata.txt"
+echo >> "$dir_name/metadata.txt"  # Add an empty line
+echo >> "$dir_name/metadata.txt"  # Add an empty line
+echo "Revision history:" >> "$dir_name/metadata.txt"
+
+# Add and commit changes
+git add "$dir_name"
+git commit -m "Add lecture notes for $(date)"
+git push origin main
+
+echo "Lecture notes created and pushed to repository"
