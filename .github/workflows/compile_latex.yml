@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
 
     - name: Install LaTeX
       run: sudo apt-get install texlive-latex-extra
@@ -37,4 +39,4 @@ jobs:
         git config --local user.name "GitHub Action"
         git add .
         git commit -m "Compile LaTeX and update metadata" || echo "No changes to commit"
-        git push
+        git push https://${{ secrets.PAT_TOKEN }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }}
