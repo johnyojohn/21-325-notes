@@ -35,8 +35,8 @@ echo >> "$dir_name/metadata.txt"  # Add an empty line
 echo "Revision history:" >> "$dir_name/metadata.txt"
 
 
-# Add and commit changes
-git add "$dir_name"
-git commit -m "Add lecture notes for $date"
+# # Add and commit changes
+# git add "$dir_name"
+# git commit -m "Add lecture notes for $date"
 
-echo "Lecture notes created and committed. Remember to push your changes when you're ready."
+# echo "Lecture notes created and committed. Remember to push your changes when you're ready."
