@@ -21,7 +21,7 @@ jobs:
 
     - name: Get changed files
       id: changed-files
-      uses: tj-actions/changed-files@v35
+      uses: tj-actions/changed-files@v45
       with:
         files: |
           **/*.tex
@@ -29,7 +29,7 @@ jobs:
     - name: Compile changed LaTeX documents and update metadata
       run: |
         for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-          if [[ $file == *.tex ]]; then
+          if [[ $file == */*.tex && $(dirname "$file" | grep -c '/') -eq 1 && $(ls "$(dirname "$file")"/*.tex | wc -l) -eq 1 ]]; then
             dir=$(dirname "$file")
             filename=$(basename "$file")
             echo "Processing $file"

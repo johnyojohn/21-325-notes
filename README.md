@@ -4,27 +4,33 @@ This repository contains notes for the 21-325 course.
 
 ## How to Use
 
-1. **Clone the repo:**
+1. **Clone the repository:**
    ```bash
-   git clone [repository-url]
+   git clone https://github.com/johnyojohn/21-325-notes.git
+   cd 21-325-notes
    ```
 
-2. **Create a new note folder:**
+2. **Pull changes from the remote repo:**
+   ```bash
+   git pull origin main
+   ```
+
+3. **Create a new notes folder:**
    ```bash
    ./new.sh
    ```
 
-3. **Edit notes:**
+4. **Edit notes:**
    Open and modify the `notes.tex` file in the newly created folder.
 
-4. **Push changes:**
+5. **Push changes:**
    ```bash
    git add .
    git commit -m "Add new notes for [topic]"
    git push origin main
    ```
 
-5. **Verify CI/CD:**
+6. **Verify CI/CD:**
    Check the remote repository to ensure that the CI/CD pipeline has run successfully.
 
 ## Additional Information
