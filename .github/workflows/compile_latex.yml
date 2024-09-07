@@ -2,8 +2,7 @@ name: Compile LaTeX and Update Metadata
 
 on:
   push:
-    paths:
-      - '**/*.tex'
+    # This workflow will run on every push
 
 permissions:
   contents: write
