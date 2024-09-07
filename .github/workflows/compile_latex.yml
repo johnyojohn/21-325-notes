@@ -28,6 +28,9 @@ jobs:
 
     - name: Compile changed LaTeX documents and update metadata
       run: |
+        echo "All changed files:"
+        echo "${{ steps.changed-files.outputs.all_changed_files }}"
+        echo "---"
         for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
           if [[ $file == */*.tex && $(dirname "$file" | grep -c '/') -eq 1 && $(ls "$(dirname "$file")"/*.tex | wc -l) -eq 1 ]]; then
             dir=$(dirname "$file")
