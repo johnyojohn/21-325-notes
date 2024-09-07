@@ -27,7 +27,19 @@ jobs:
 
     - name: Compile changed LaTeX documents and update metadata
       run: |
+        echo "All changed files:"
+        echo "${{ steps.changed-files.outputs.all_changed_files }}"
+        echo "---"
         for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+          echo "File: $file"
+          echo "Directory: $(dirname "$file")"
+          echo "Number of directories: $(dirname "$file" | grep -c '/')"
+          echo "Number of .tex files in directory: $(ls "$(dirname "$file")"/*.tex | wc -l)"
+          echo "Condition evaluation:"
+          echo "1. Is it a .tex file? [[ $file == */*.tex ]] = $([[ $file == */*.tex ]] && echo "true" || echo "false")"
+          echo "2. Is it in a subdirectory? [[ $(dirname "$file" | grep -c '/') -eq 1 ]] = $([[ $(dirname "$file" | grep -c '/') -eq 1 ]] && echo "true" || echo "false")"
+          echo "3. Is it the only .tex file? [[ $(ls "$(dirname "$file")"/*.tex | wc -l) -eq 1 ]] = $([[ $(ls "$(dirname "$file")"/*.tex | wc -l) -eq 1 ]] && echo "true" || echo "false")"
+          echo "---"
           if [[ $file == */*.tex && $(dirname "$file" | grep -c '/') -eq 1 && $(ls "$(dirname "$file")"/*.tex | wc -l) -eq 1 ]]; then
             dir=$(dirname "$file")
             filename=$(basename "$file")
