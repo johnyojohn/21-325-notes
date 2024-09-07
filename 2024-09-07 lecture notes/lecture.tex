@@ -1,1 +1,54 @@
-Template for lecture notes test test test
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\title{15326 - Computational Microeconomics\\
+Homework 0}
+
+\begin{document}
+
+\maketitle
+
+\section{Conditional probability}
+
+Suppose, WLOG, that the child was first offered the red and blue toys, and initially picked the blue one. We want to find the probability that, when offered the red and green one after the baby got bored of the blue toy, the baby will choose the red toy. Thus, \\
+$P(r \succ g | b \succ r) $\\
+$= P(r \succ g \cap b \succ r)/P(b \succ r)$\\
+$= P(b \succ r \succ g) / (1/2) $\\
+$= (1/6) / (1/2) $\\
+$= 1/3 $\\
+
+
+\section{Probability density functions}
+
+
+\subsection{Calculate expectation of bid}
+
+If Alice's valuation for an item is less than or equal to 2 and greater than or equal to 1, her bid will be $b_A = v_A$, and if the valuation is greater than 2 and less than or equal to 3, her bid will be $2$. Observe that $P(1 \leq v_A \leq 2) = P(2 < v_A \leq 3) = 1/2$. Thus,\\
+$E[b_A]$\\
+$ = E[b_A | 1 \leq v_A \leq 2] * P(1 \leq v_A \leq 2) + E[b_A | 2 < v_A \leq 3] * P(2 < v_A \leq 3)$\\
+$ = 1.5*0.5 + 2*0.5 = 1.75$. 
+
+\subsection{Calculate probability}
+
+Let the highest bid be the continuous random variable $X$. Then, $F_X(x)=P(X\leq x) = P(b_B \leq x) * P(b_C \leq x)$, since  the bids are independent. Observe that $F_X(x)=0$ if $x<0$ and  $F_X(x)=1$ if $3 < x$ since both of the bids must be from $[0,3]$. In addition, if $0 \leq b_B \leq 3$, then $P(b_B \leq x)=(x-0)/(3-0) = x/3$. The same is true for $0 \leq b_C \leq 3$, so $F_X(x)=(x/3)(x/3) = x^2/9$ if $ 0 \leq x < 3$. Thus, 
+
+$
+F_X(x) = \begin{cases}
+0 & \text{for } x < 0 \\
+\frac{x^2}{9} & \text{for } 0 \leq x \leq 3 \\
+1 & \text{for } x > 3
+\end{cases}
+$
+
+Now, let us consider the case in which Alice bids her expected value $E[v_A]=2$. We evaluate $F_X(2)=4/9$.
+
+\section{Combinatorics}
+
+\begin{itemize}
+    \item All students have unique heights, so there is exactly one ordering where all the shorter students sit in front of taller ones. There are $10!$ possible orderings. Thus, the probability that no one has to change their seat is $1/10!$.
+    \item Note that it is impossible for exactly one student to have to change their seat, since one student changing their seat with another student would mean that the other student changes their seat. Thus, the probability that exactly one student has to change their seat is 0.
+    \item We want to find the probability that exactly two students have to change their seats, that is, the other 8 students must have been properly ordered. Observe that finding the number of such possible orderings is equivalent to having a properly ordered line of students, then finding the number of ways you can switch two students so that it messes up the ordering. But since there is exactly one proper ordering, picking any two students would mess up the ordering. Thus, there are $10 \choose 2$ such orderings. Thus, the probability that exactly two students have to be switched is ${10 \choose 2} / 10!$.
+\end{itemize}
+
+\end{document}
