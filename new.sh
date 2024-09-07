@@ -6,6 +6,11 @@ date=${1:-$(date +%Y-%m-%d)}
 
 # Create directory with the given date
 dir_name="$date lecture notes"
+counter=1
+while [ -d "$dir_name" ]; do
+    counter=$((counter + 1))
+    dir_name="$date lecture notes $counter"
+done
 mkdir "$dir_name"
 
 # Copy template to the new directory
@@ -26,9 +31,9 @@ echo >> "$dir_name/metadata.txt"  # Add an empty line
 echo >> "$dir_name/metadata.txt"  # Add an empty line
 echo "Revision history:" >> "$dir_name/metadata.txt"
 
-# Add and commit changes
-git add "$dir_name"
-git commit -m "Add lecture notes for $(date)"
-git push origin main
+# # Add and commit changes
+# git add "$dir_name"
+# git commit -m "Add lecture notes for $(date)"
+# git push origin main
 
-echo "Lecture notes created and pushed to repository"
+# echo "Lecture notes created and pushed to repository"
