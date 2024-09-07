@@ -14,7 +14,7 @@ done
 mkdir "$dir_name"
 
 # Copy template to the new directory
-cp template.tex "$dir_name/lecture.tex"
+cp template.tex "$dir_name/notes.tex"
 
 # Get the Git user name
 git_user=$(git config user.name)
