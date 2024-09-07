@@ -1,0 +1,40 @@
+name: Compile LaTeX and Update Metadata
+
+     on:
+       push:
+         paths:
+           - '**/*.tex'
+
+     jobs:
+       compile_and_update:
+         runs-on: ubuntu-latest
+         steps:
+         - uses: actions/checkout@v2
+
+         - name: Install LaTeX
+           run: sudo apt-get install texlive-latex-extra
+
+         - name: Compile LaTeX documents
+           run: |
+             for dir in */; do
+               if [ -f "${dir}lecture.tex" ]; then
+                 pdflatex -output-directory="$dir" "${dir}lecture.tex"
+               fi
+             done
+
+         - name: Update metadata
+           run: |
+             for dir in */; do
+               if [ -f "${dir}lecture.tex" ]; then
+                 echo "Last compiled: $(date)" >> "${dir}metadata.txt"
+                 echo "Commit: ${{ github.sha }}" >> "${dir}metadata.txt"
+               fi
+             done
+
+         - name: Commit and push changes
+           run: |
+             git config --local user.email "action@github.com"
+             git config --local user.name "GitHub Action"
+             git add .
+             git commit -m "Compile LaTeX and update metadata" || echo "No changes to commit"
+             git push
