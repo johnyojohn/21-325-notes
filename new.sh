@@ -7,11 +7,11 @@ cd "$(git rev-parse --show-toplevel)" || exit 1
 date=${1:-$(date +%Y-%m-%d)}
 
 # Create directory with the given date
-dir_name="$date lecture notes"
+dir_name="${date}_lecture_notes"
 counter=1
 while [ -d "$dir_name" ]; do
     counter=$((counter + 1))
-    dir_name="$date lecture notes $counter"
+    dir_name="${date}_lecture_notes_$counter"
 done
 mkdir "$dir_name"
 
