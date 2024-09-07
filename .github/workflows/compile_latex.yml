@@ -23,7 +23,7 @@ jobs:
       uses: tj-actions/changed-files@v45
       with:
         files: |
-          **/*.tex
+          */*.tex
 
     - name: Compile changed LaTeX documents and update metadata
       run: |
