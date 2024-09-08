@@ -1,6 +1,6 @@
 # 21-325 Notes
 
-This repository contains notes for the 21-325 course.
+This repository contains version controlled notes for the 21-325 course.
 
 ## How to Use
 
@@ -22,8 +22,6 @@ This repository contains notes for the 21-325 course.
 
 4. **Edit notes:**
    Open and modify the `notes.tex` file in the newly created folder.
-
-
 
 5. **Build and push changes:**
    ```bash
