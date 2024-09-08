@@ -23,19 +23,9 @@ This repository contains notes for the 21-325 course.
 4. **Edit notes:**
    Open and modify the `notes.tex` file in the newly created folder.
 
-5. **Push changes:**
+
+
+5. **Build and push changes:**
    ```bash
-   git add .
-   git commit -m "Add new notes for [topic]"
-   git push origin main
+   ./build.sh
    ```
-
-6. **Verify CI/CD:**
-   Check the remote repository to ensure that the CI/CD pipeline has run successfully.
-
-## Additional Information
-
-- This repository uses LaTeX for note-taking.
-- Ensure you have LaTeX installed on your local machine for editing.
-- The CI/CD pipeline automatically compiles LaTeX files to PDF.
-- Send bugs to seungjio@andrew.cmu.edu.

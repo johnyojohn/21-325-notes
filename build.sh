@@ -5,21 +5,22 @@ compile_and_update() {
     local file=$1
     local dir=$(dirname "$file")
     local filename=$(basename "$file")
+    local basename="${filename%.tex}"
 
     echo "Processing $file"
     
     # Compile LaTeX
     pdflatex -output-directory="$dir" "$file"
 
-    # Clean up auxiliary files
-    rm -f "$dir/$basename.aux" "$dir/$basename.log" "$dir/$basename.out" "$dir/$basename.synctex.gz" "$dir/$basename.p"
-    
     # Update metadata
     echo >> "$dir/metadata.txt" 
     echo "Last compiled: $(date)" >> "$dir/metadata.txt"
     echo "Revision by: $(git config user.name)" >> "$dir/metadata.txt"
     echo "Commit: $(git rev-parse HEAD)" >> "$dir/metadata.txt"
     
+    # Clean up auxiliary files
+    rm -f "$dir/$basename".{aux,log,out,synctex.gz,toc,lof,lot,bbl,blg,nav,snm,vrb}
+
     # Add changes to git
     git add "$dir/${filename%.tex}.pdf" "$dir/metadata.txt"
 }
@@ -30,8 +31,12 @@ repo_root=$(git rev-parse --show-toplevel)
 # Change to the repository root
 cd "$repo_root"
 
-# Get list of changed .tex files that are one layer deep in the repository
-changed_files=$(git diff --name-only HEAD | grep '^[^/]*/[^/]*\.tex$')
+# Get list of changed and new .tex files that are one layer deep
+changed_files=$(git diff --name-only HEAD | grep '*/.*\.tex$')
+new_files=$(git ls-files --others --exclude-standard | grep '*/.*\.tex$')
+
+# Combine changed and new files
+all_files="$changed_files $new_files"
 
 # Process each changed file
 for file in $changed_files; do
