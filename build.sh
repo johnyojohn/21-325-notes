@@ -32,19 +32,23 @@ repo_root=$(git rev-parse --show-toplevel)
 cd "$repo_root"
 
 # Get list of changed and new .tex files that are one layer deep in the repository
-changed_files=$(git status --porcelain | grep -E '^\s*[AM]\s+[^/]*/[^/]*\.tex$' | awk '{print $2}')
+changed_files=$(git ls-files -o -m --exclude-standard | grep -E '^[^/]*/[^/]*\.tex$')
 
 # Process each changed file
 for file in $changed_files; do
-    if [[ $(ls "$(dirname "$file")"/*.tex | wc -l) -eq 1 ]]; then
+    if [[ -f "$file" ]]; then
         compile_and_update "$file"
     fi
 done
 
-# Commit changes
-git commit -m "Compile LaTeX and update metadata"
+# Add all changes, including new directories and files
+git add -A
 
-# Push changes
-git push origin HEAD
-
-echo "Changes have been compiled, committed, and pushed to the remote repository."
+# Commit changes if there are any
+if ! git diff --quiet HEAD || ! git diff --staged --quiet; then
+    git commit -m "Compile LaTeX and update metadata"
+    git push origin HEAD
+    echo "Changes have been compiled, committed, and pushed to the remote repository."
+else
+    echo "No changes to commit."
+fi
