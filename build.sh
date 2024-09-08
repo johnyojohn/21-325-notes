@@ -31,12 +31,8 @@ repo_root=$(git rev-parse --show-toplevel)
 # Change to the repository root
 cd "$repo_root"
 
-# Get list of changed and new .tex files that are one layer deep
-changed_files=$(git diff --name-only HEAD | grep '*/.*\.tex$')
-new_files=$(git ls-files --others --exclude-standard | grep '*/.*\.tex$')
-
-# Combine changed and new files
-all_files="$changed_files $new_files"
+# Get list of changed and new .tex files that are one layer deep in the repository
+changed_files=$(git status --porcelain | grep -E '^\s*[AM]\s+[^/]*/[^/]*\.tex$' | awk '{print $2}')
 
 # Process each changed file
 for file in $changed_files; do
